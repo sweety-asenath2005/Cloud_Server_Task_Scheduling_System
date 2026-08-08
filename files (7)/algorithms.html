@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Scheduling Strategies - Cloud Server Task Scheduling System</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== Navigation Bar ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="brand">
+        <span class="brand-icon">☁️</span>
+        <span>Cloud Server Task Scheduling System</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="input.html">Simulation</a></li>
+        <li><a href="result.html">Results</a></li>
+        <li><a href="algorithms.html" class="active">Algorithms</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Cloud Scheduling Strategies</h1>
+      <p>Learn how each scheduling strategy decides which cloud task gets CPU execution next.</p>
+    </div>
+
+    <!-- ===== FCFS ===== -->
+    <section class="algo-info-block">
+      <h2>1. FCFS — First Come First Serve</h2>
+      <p><strong>Cloud Context:</strong> When cloud tasks arrive at the server, they are handled in their arrival order.</p>
+
+      <h4>How It Works</h4>
+      <ul>
+        <li>Cloud tasks are sorted by their arrival time.</li>
+        <li>The server CPU executes each task fully, one after another, in that order.</li>
+        <li>If no cloud task has arrived, the server CPU stays idle until the next arrival.</li>
+      </ul>
+
+      <h4>Advantages</h4>
+      <ul>
+        <li>Simple to understand and implement.</li>
+        <li>Fair in terms of arrival order — no cloud task starves.</li>
+      </ul>
+
+      <h4>Disadvantages</h4>
+      <ul>
+        <li>Short cloud tasks can wait behind long ones (convoy effect).</li>
+        <li>Not ideal for time-sharing cloud workloads.</li>
+      </ul>
+
+      <div class="example-box">
+        Example: T1 (AT 0, CPU 5), T2 (AT 1, CPU 3) → T1 runs first (0–5), then T2 (5–8), even though T2 arrived early and is shorter.
+      </div>
+    </section>
+
+    <!-- ===== SJF ===== -->
+    <section class="algo-info-block">
+      <h2>2. SJF — Shortest Job First (Non-Preemptive)</h2>
+      <p><strong>Cloud Context:</strong> The scheduler selects the available cloud task requiring the shortest CPU execution time.</p>
+
+      <h4>How It Works</h4>
+      <ul>
+        <li>At every decision point, look at all cloud tasks that have arrived but not yet executed.</li>
+        <li>Pick the one with the shortest CPU execution time and run it to completion.</li>
+        <li>If nothing has arrived yet, the server CPU stays idle.</li>
+      </ul>
+
+      <h4>Advantages</h4>
+      <ul>
+        <li>Minimizes average waiting time among non-preemptive strategies.</li>
+        <li>Efficient for batch cloud workloads with known CPU times.</li>
+      </ul>
+
+      <h4>Disadvantages</h4>
+      <ul>
+        <li>Requires knowing CPU times in advance, which is often unrealistic.</li>
+        <li>Long cloud tasks may face starvation if short tasks keep arriving.</li>
+      </ul>
+
+      <div class="example-box">
+        Example: T1 (AT 0, CPU 5), T2 (AT 1, CPU 3) → T1 starts at 0 since it's the only task available; once T2 has arrived, it still must wait for T1 to finish because SJF here is non-preemptive.
+      </div>
+    </section>
+
+    <!-- ===== Priority Scheduling ===== -->
+    <section class="algo-info-block">
+      <h2>3. Priority Scheduling (Non-Preemptive)</h2>
+      <p><strong>Cloud Context:</strong> The scheduler gives CPU access to the highest-priority available cloud task.</p>
+
+      <h4>How It Works</h4>
+      <ul>
+        <li>Only cloud tasks that have already arrived are considered.</li>
+        <li>The task with the smallest priority number is selected first (lower number = higher priority).</li>
+        <li>Ties are broken using arrival time, then original input order.</li>
+      </ul>
+
+      <h4>Advantages</h4>
+      <ul>
+        <li>Important or urgent cloud tasks can be completed sooner.</li>
+        <li>Flexible — priority can represent deadline or importance.</li>
+      </ul>
+
+      <h4>Disadvantages</h4>
+      <ul>
+        <li>Low-priority cloud tasks may starve if high-priority tasks keep arriving.</li>
+        <li>Choosing a fair priority value can be difficult.</li>
+      </ul>
+
+      <div class="example-box">
+        Example: T1 (Priority 2), T2 (Priority 1) → T2 runs before T1 because a lower number means higher priority.
+      </div>
+    </section>
+
+    <!-- ===== Round Robin ===== -->
+    <section class="algo-info-block">
+      <h2>4. Round Robin</h2>
+      <p><strong>Cloud Context:</strong> The scheduler gives each cloud task a limited CPU time and cycles through the task queue.</p>
+
+      <h4>How It Works</h4>
+      <ul>
+        <li>Cloud tasks are placed in a ready queue as they arrive.</li>
+        <li>The server CPU executes the first task for one time quantum, or until it finishes — whichever is smaller.</li>
+        <li>If the task still needs more time, it goes to the back of the queue.</li>
+        <li>Newly arrived tasks join the queue and this cycle continues until every task is done.</li>
+      </ul>
+
+      <h4>Advantages</h4>
+      <ul>
+        <li>Fair CPU distribution — good for time-sharing cloud systems.</li>
+        <li>No cloud task waits too long before getting some CPU time.</li>
+      </ul>
+
+      <h4>Disadvantages</h4>
+      <ul>
+        <li>Performance heavily depends on choosing a good time quantum.</li>
+        <li>Too small a quantum increases overhead; too large behaves like FCFS.</li>
+      </ul>
+
+      <div class="example-box">
+        Example: Time Quantum = 2. T1 (CPU 5) runs 0–2, then T2 gets a turn, and T1 returns to the queue for its remaining 3 units.
+      </div>
+    </section>
+
+    <!-- ===== Comparison Table ===== -->
+    <section class="panel">
+      <h2>📊 Algorithm Comparison</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Algorithm</th>
+              <th>Preemptive?</th>
+              <th>Main Idea</th>
+              <th>Cloud Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>FCFS</td>
+              <td>No</td>
+              <td>Arrival order</td>
+              <td>Simple cloud scheduling</td>
+            </tr>
+            <tr>
+              <td>SJF</td>
+              <td>No</td>
+              <td>Shortest CPU time</td>
+              <td>Lower waiting time</td>
+            </tr>
+            <tr>
+              <td>Priority</td>
+              <td>No</td>
+              <td>Highest priority</td>
+              <td>Important cloud tasks</td>
+            </tr>
+            <tr>
+              <td>Round Robin</td>
+              <td>Yes</td>
+              <td>Time quantum</td>
+              <td>Fair CPU sharing</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+<!-- ===== Footer ===== -->
+  <footer class="footer">
+    &nbsp;
+  </footer>
+
+</body>
+</html>

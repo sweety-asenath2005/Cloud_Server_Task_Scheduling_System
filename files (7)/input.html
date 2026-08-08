@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Task Scheduler - Cloud Server Task Scheduling System</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== Navigation Bar ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="brand">
+        <span class="brand-icon">☁️</span>
+        <span>Cloud Server Task Scheduling System</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="input.html" class="active">Simulation</a></li>
+        <li><a href="result.html">Results</a></li>
+        <li><a href="algorithms.html">Algorithms</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- ===== Page Header ===== -->
+    <div class="page-header">
+      <h1>Cloud Task Scheduling</h1>
+      <p>Configure incoming cloud tasks and simulate their execution on the server.</p>
+    </div>
+
+    <!-- ===== Cloud Server Status ===== -->
+    <section class="panel">
+      <h2>🖥️ Cloud Server Status</h2>
+      <div class="server-status">
+        <div class="ss-left">
+          <div class="ss-dot"></div>
+          <div>
+            <div class="ss-title" id="serverStatusTitle">Cloud Server Ready</div>
+            <div class="ss-sub" id="serverStatusSub">Waiting for incoming cloud tasks...</div>
+          </div>
+        </div>
+        <div class="ss-stats">
+          <div class="ss-stat">
+            <div class="label">Tasks Waiting</div>
+            <div class="value" id="ssTasksWaiting">0</div>
+          </div>
+          <div class="ss-stat">
+            <div class="label">Scheduling Engine</div>
+            <div class="value" id="ssEngine">Ready</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Cloud Task Input ===== -->
+    <section class="panel">
+      <h2>☁️ Incoming Cloud Tasks</h2>
+
+      <form id="processForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="processId">Task ID</label>
+            <input type="text" id="processId" placeholder="e.g. T1" aria-label="Task ID" />
+          </div>
+          <div class="form-group">
+            <label for="arrivalTime">Arrival Time</label>
+            <input type="number" id="arrivalTime" placeholder="e.g. 0" min="0" aria-label="Arrival Time" />
+          </div>
+          <div class="form-group">
+            <label for="burstTime">CPU Execution Time</label>
+            <input type="number" id="burstTime" placeholder="e.g. 5" min="1" aria-label="CPU Execution Time" />
+          </div>
+          <div class="form-group">
+            <label for="priority">Priority</label>
+            <input type="number" id="priority" placeholder="e.g. 2" min="1" aria-label="Priority" />
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="addTaskBtn">+ Add Cloud Task</button>
+          </div>
+        </div>
+
+        <div class="error-message" id="formError" aria-live="polite"></div>
+      </form>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="sampleDataBtn">Load Sample Tasks</button>
+        <button type="button" class="btn btn-danger" id="clearAllBtn">Clear Tasks</button>
+      </div>
+    </section>
+
+    <!-- ===== Feedback Toast ===== -->
+    <div class="toast" id="toast" aria-live="polite"></div>
+
+<!-- ===== Cloud Task Queue ===== -->
+    <section class="panel">
+      <h2>🗂️ Cloud Task Queue <span class="queue-badge" id="queueCount">0</span></h2>
+      <div class="task-queue" id="taskQueue"></div>
+      <p class="task-queue-empty" id="taskQueueEmpty">No cloud tasks in the queue yet. Add a task above or load sample tasks.</p>
+    </section>
+
+    <!-- ===== Cloud Task Table ===== -->
+    <section class="panel">
+      <h2>📋 Cloud Task Configuration</h2>
+      <div class="table-wrapper">
+        <table id="processTable">
+          <thead>
+            <tr>
+              <th>Task ID</th>
+              <th>Arrival Time</th>
+              <th>CPU Execution Time</th>
+              <th>Priority</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="processTableBody">
+            <!-- Rows added dynamically by js/input.js -->
+          </tbody>
+        </table>
+      </div>
+      <p class="empty-state" id="emptyStateMessage">No cloud tasks configured yet. Add a task above or load sample tasks.</p>
+    </section>
+
+    <!-- ===== Scheduling Strategy Selection ===== -->
+    <section class="panel">
+      <h2>⚙️ Scheduling Strategy</h2>
+
+      <div class="algo-options" id="algoOptions">
+        <label class="algo-option" data-algo="fcfs">
+          <input type="radio" name="algorithm" value="fcfs" checked />
+          <span>FCFS</span>
+        </label>
+        <label class="algo-option" data-algo="sjf">
+          <input type="radio" name="algorithm" value="sjf" />
+          <span>SJF</span>
+        </label>
+        <label class="algo-option" data-algo="priority">
+          <input type="radio" name="algorithm" value="priority" />
+          <span>Priority Scheduling</span>
+        </label>
+        <label class="algo-option" data-algo="rr">
+          <input type="radio" name="algorithm" value="rr" />
+          <span>Round Robin</span>
+        </label>
+      </div>
+
+      <p class="algo-description" id="algoDescription">
+        Schedules cloud tasks in the order they arrive.
+      </p>
+
+      <div class="form-group" id="timeQuantumGroup">
+        <label for="timeQuantum">Time Quantum</label>
+        <input type="number" id="timeQuantum" placeholder="e.g. 2" min="1" aria-label="Time Quantum" />
+      </div>
+    </section>
+
+<!-- ===== Schedule Cloud Tasks ===== -->
+    <section class="panel text-center">
+      <button type="button" class="btn btn-primary btn-large" id="runSimulationBtn">▶ Schedule Cloud Tasks</button>
+      <div class="error-message" id="simulationError" aria-live="polite"></div>
+    </section>
+
+  </div>
+
+<!-- ===== Footer ===== -->
+  <footer class="footer">
+    &nbsp;
+  </footer>
+
+  <script src="js/scheduling.js"></script>
+  <script src="js/input.js"></script>
+</body>
+</html>

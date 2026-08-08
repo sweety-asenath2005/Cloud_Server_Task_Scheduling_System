@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Server Task Scheduling System</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== Navigation Bar ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="brand">
+        <span class="brand-icon">☁️</span>
+        <span>Cloud Server Task Scheduling System</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="input.html">Simulation</a></li>
+        <li><a href="result.html">Results</a></li>
+        <li><a href="algorithms.html">Algorithms</a></li>
+      </ul>
+    </div>
+  </nav>
+
+<!-- ===== Hero Section ===== -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-badge">☁️ Cloud Task Scheduling System</div>
+      <h1>Efficient Cloud Task Scheduling</h1>
+      <p class="subtitle">
+        Simulate how a cloud server receives multiple computing tasks and schedules CPU execution
+        using FCFS, SJF, Priority, and Round Robin algorithms.
+      </p>
+      <p class="description">
+        Configure incoming cloud tasks, place them in a task queue, and analyze execution metrics
+        such as waiting time, turnaround time, CPU utilization, and throughput.
+      </p>
+      <div class="hero-actions">
+        <a href="input.html" class="btn btn-primary btn-large">Schedule Cloud Tasks</a>
+        <a href="algorithms.html" class="btn btn-secondary btn-large">View Strategies</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== System Stats Strip ===== -->
+  <section class="section stats-strip-section">
+    <div class="container">
+      <div class="stats-strip">
+        <div class="strip-item">
+          <div class="strip-icon">🗂️</div>
+          <div class="strip-value">4</div>
+          <div class="strip-label">Cloud Tasks Queue</div>
+        </div>
+        <div class="strip-item">
+          <div class="strip-icon">⚙️</div>
+          <div class="strip-value">4</div>
+          <div class="strip-label">Scheduling Strategies</div>
+        </div>
+        <div class="strip-item">
+          <div class="strip-icon">🖥️</div>
+          <div class="strip-value">1</div>
+          <div class="strip-label">Cloud Server</div>
+        </div>
+        <div class="strip-item">
+          <div class="strip-icon">📊</div>
+          <div class="strip-value">100%</div>
+          <div class="strip-label">Simulation Accuracy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Cloud Feature Cards ===== -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Cloud Task Scheduling Features</h2>
+      <p class="section-subtitle">Everything you need to manage and schedule cloud computing tasks</p>
+
+      <div class="cards-grid">
+        <div class="card">
+          <span class="card-icon">☁️</span>
+          <h3>Cloud Task Management</h3>
+          <p>Manage incoming computing tasks before execution.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">⚙️</span>
+          <h3>Intelligent Scheduling</h3>
+          <p>Select a CPU scheduling strategy for task execution.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🖥️</span>
+          <h3>Server Execution</h3>
+          <p>Visualize how tasks are processed by the cloud server.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">📊</span>
+          <h3>Performance Analysis</h3>
+          <p>Analyze waiting time and turnaround time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Scheduling Algorithm Section ===== -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Scheduling Strategies</h2>
+      <p class="section-subtitle">The cloud server decides task execution order using these algorithms</p>
+
+      <div class="cards-grid">
+        <div class="card">
+          <span class="card-icon">🕒</span>
+          <h3>FCFS</h3>
+          <p>Schedules cloud tasks in the order they arrive.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">⚡</span>
+          <h3>SJF</h3>
+          <p>Selects the available cloud task requiring the shortest CPU execution time.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">⭐</span>
+          <h3>Priority Scheduling</h3>
+          <p>Executes the highest-priority cloud task first.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🔁</span>
+          <h3>Round Robin</h3>
+          <p>Shares CPU execution time among cloud tasks using a fixed time quantum.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How It Works ===== -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Four simple steps to run your own cloud scheduling simulation</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h4>Add Cloud Tasks</h4>
+          <p>Enter Task ID, Arrival Time, CPU Execution Time and Priority.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h4>Select Strategy</h4>
+          <p>Choose FCFS, SJF, Priority, or Round Robin.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h4>Schedule Tasks</h4>
+          <p>The scheduler computes the execution order instantly.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <h4>Analyze Results</h4>
+          <p>View the cloud server timeline and task performance metrics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- ===== Footer ===== -->
+  <footer class="footer">
+    &nbsp;
+  </footer>
+
+</body>
+</html>

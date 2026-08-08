@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results - Cloud Server Task Scheduling System</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== Navigation Bar ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="brand">
+        <span class="brand-icon">☁️</span>
+        <span>Cloud Server Task Scheduling System</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="input.html">Simulation</a></li>
+        <li><a href="result.html" class="active">Results</a></li>
+        <li><a href="algorithms.html">Algorithms</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Cloud Task Scheduling Results</h1>
+      <p>Review the cloud server execution timeline, task metrics and performance summary below.</p>
+    </div>
+
+    <!-- ===== No Data Message (shown only if localStorage is empty) ===== -->
+    <div class="no-data-box" id="noDataBox" style="display:none;">
+      <div class="icon">⚠️</div>
+      <p>No simulation data found. Please start a new cloud scheduling simulation.</p>
+      <a href="input.html" class="btn btn-primary">Go to Simulation Page</a>
+    </div>
+
+    <!-- ===== Results Content (hidden until data is loaded) ===== -->
+    <div id="resultsContent" style="display:none;">
+
+      <!-- ===== Server Execution Status ===== -->
+      <div class="execution-status">
+        <div class="es-header">
+          <div class="es-icon">🖥️</div>
+          <div class="es-title">Cloud Server</div>
+          <span class="es-status-pill" id="esStatusPill">Processing Complete ✓</span>
+        </div>
+        <div class="es-grid">
+          <div class="es-item">
+            <div class="label">Scheduler</div>
+            <div class="value" id="esScheduler">—</div>
+          </div>
+          <div class="es-item">
+            <div class="label">Tasks Processed</div>
+            <div class="value" id="esTasksProcessed">—</div>
+          </div>
+        </div>
+        <div class="es-timeline">Server Timeline: <strong id="esTimeline">—</strong></div>
+      </div>
+
+<!-- ===== Summary Bar ===== -->
+      <div class="summary-bar">
+        <div class="summary-item">
+          <div class="label">Algorithm</div>
+          <div class="value" id="summaryAlgorithm">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="label">Number of Cloud Tasks</div>
+          <div class="value" id="summaryProcessCount">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="label">Time Quantum</div>
+          <div class="value" id="summaryTimeQuantum">—</div>
+        </div>
+      </div>
+
+      <!-- ===== Cloud Server Execution Timeline (Gantt Chart) ===== -->
+      <section class="panel">
+        <h2>📊 Cloud Server Execution Timeline</h2>
+        <p class="mb-20" style="color:var(--color-text-light);font-size:0.9rem;">
+          Which cloud task is using the server CPU at each point in time. "IDLE" means the cloud server has no available task.
+        </p>
+        <div class="gantt-wrapper">
+          <div class="gantt-blocks" id="ganttBlocks"></div>
+          <div class="gantt-times" id="ganttTimes"></div>
+        </div>
+        <div class="gantt-legend">
+          <span class="legend-item"><span class="legend-swatch task-swatch"></span> Cloud Task execution</span>
+          <span class="legend-item"><span class="legend-swatch idle-swatch"></span> IDLE (no available task)</span>
+        </div>
+      </section>
+
+      <!-- ===== Cloud Task Execution Results ===== -->
+      <section class="panel">
+        <h2>📋 Cloud Task Execution Results</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Task ID</th>
+                <th>Arrival Time</th>
+                <th>CPU Execution Time</th>
+                <th>Priority</th>
+                <th>Completion Time</th>
+                <th>Turnaround Time</th>
+                <th>Waiting Time</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody"></tbody>
+          </table>
+        </div>
+        <p class="mt-20" style="color:var(--color-text-light);font-size:0.88rem;">
+          Waiting Time represents how long a cloud task waits before receiving CPU execution.<br />
+          Turnaround Time represents the total time taken from task arrival until task completion.
+        </p>
+      </section>
+
+      <!-- ===== Cloud Scheduling Performance ===== -->
+      <section class="panel">
+        <h2>📈 Cloud Scheduling Performance</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">☁️</div>
+            <div class="stat-label">Tasks Received</div>
+            <div class="stat-value" id="metricTasksReceived">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🖥️</div>
+            <div class="stat-label">Tasks Completed</div>
+            <div class="stat-value" id="metricTasksCompleted">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-label">Average Waiting Time</div>
+            <div class="stat-value" id="avgWaitingTime">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-label">Average Turnaround Time</div>
+            <div class="stat-value" id="avgTurnaroundTime">—</div>
+          </div>
+<div class="stat-card">
+            <div class="stat-icon">⚙️</div>
+            <div class="stat-label">Selected Scheduler</div>
+            <div class="stat-value" id="selectedScheduler" style="font-size:1.4rem;">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-label">Total Execution Time</div>
+            <div class="stat-value" id="totalExecutionTime">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-label">CPU Utilization</div>
+            <div class="stat-value" id="cpuUtilization">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🚀</div>
+            <div class="stat-label">Throughput</div>
+            <div class="stat-value" id="throughput">—</div>
+          </div>
+        </div>
+      </section>
+
+<!-- ===== Performance Comparison ===== -->
+      <section class="panel">
+        <h2>📉 Scheduling Performance Analysis</h2>
+        <div class="bar-row">
+          <div class="bar-label">Average Waiting Time</div>
+          <div class="bar-track"><div class="bar-fill" id="barWaiting"></div></div>
+          <div class="bar-value" id="barWaitingValue">—</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Average Turnaround Time</div>
+          <div class="bar-track"><div class="bar-fill" id="barTurnaround"></div></div>
+          <div class="bar-value" id="barTurnaroundValue">—</div>
+        </div>
+      </section>
+
+      <!-- ===== Result Page Buttons ===== -->
+      <section class="panel text-center">
+        <a href="input.html" class="btn btn-secondary">← Back to Input</a>
+        <button type="button" class="btn btn-primary" id="newSimulationBtn">New Simulation</button>
+      </section>
+
+    </div>
+  </div>
+
+<!-- ===== Footer ===== -->
+  <footer class="footer">
+    &nbsp;
+  </footer>
+
+  <script src="js/scheduling.js"></script>
+  <script src="js/result.js"></script>
+</body>
+</html>
